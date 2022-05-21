@@ -16,7 +16,7 @@
             <div class="menu-extras topbar-custom">
 
                 <ul class="list-unstyled float-right mb-0">
-                    
+
                     <!-- language-->
                     <li class="dropdown notification-list hide-phone">
                         <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button"
@@ -166,22 +166,22 @@
                             <li>
                                 <ul>
                                     <li><a href="{{route('roles')}}">Roles</a></li>
-                                    <li><a href="{{route('users')}}">Users</a></li>      
+                                    <li><a href="{{route('users')}}">Users</a></li>
                                 </ul>
                             </li>
                         </ul>
                     </li>
 
                     <li class="has-submenu">
-                        <a href="{{route('home')}}">Field Control</a>                                
+                        <a href="{{route('field-control.create')}}">Field Control</a>
                     </li>
 
                     <li class="has-submenu">
                         <a href="{{route('home')}}">User information</a>
                     </li>
 
-                   
-                    
+
+
                 </ul>
                 <!-- End navigation menu -->
             </div> <!-- end #navigation -->

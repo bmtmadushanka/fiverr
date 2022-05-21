@@ -30,6 +30,36 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 /** Application Module Ends */
 
+ /** Field Control Module Begin */
+    Route::get('/field-control', [\App\Http\Controllers\Admin\FieldControlController::class, 'create'])->name('field-control.create');
+
+    //Educations
+    Route::get('/educations', [App\Http\Controllers\Admin\EducationsController::class, 'index'])->name('education.all');
+    Route::post('/educations', [App\Http\Controllers\Admin\EducationsController::class, 'store'])->name('education.store');
+    Route::post('/educations/import', [App\Http\Controllers\Admin\EducationsController::class, 'import'])->name('education.import');
+    Route::put('/educations/{id}', [App\Http\Controllers\Admin\EducationsController::class, 'update'])->name('education.update');
+    Route::delete('/educations/{id}', [App\Http\Controllers\Admin\EducationsController::class, 'destroy'])->name('education.destroy');
+
+    //Notes
+    Route::post('/notes', [App\Http\Controllers\Admin\NotesController::class, 'store'])->name('note.store');
+    Route::put('/notes/{id}', [App\Http\Controllers\Admin\NotesController::class, 'update'])->name('note.update');
+    Route::delete('/notes/{id}', [App\Http\Controllers\Admin\NotesController::class, 'delete'])->name('note.delete');
+
+    //Sectors
+    Route::post('/sectors', [App\Http\Controllers\Admin\SectorsController::class, 'store'])->name('sector.store');
+    Route::put('/sectors/{id}', [App\Http\Controllers\Admin\SectorsController::class, 'update'])->name('sector.update');
+    Route::delete('/sectors/{id}', [App\Http\Controllers\Admin\SectorsController::class, 'delete'])->name('sector.delete');
+
+    //Departments
+    Route::post('/departments', [App\Http\Controllers\Admin\DepartmentsController::class, 'store'])->name('department.store');
+    Route::put('/departments/{id}', [App\Http\Controllers\Admin\DepartmentsController::class, 'update'])->name('department.update');
+    Route::delete('/departments/{id}', [App\Http\Controllers\Admin\DepartmentsController::class, 'delete'])->name('department.delete');
+
+
+
+
+/** Application Module Ends */
+
 /** Users Module Begin */
 
     Route::get('/users', [App\Http\Controllers\UsersController::class, 'index'])->name('users');
