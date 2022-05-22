@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Role;
-
+use App\Models\RolePermission;
 class RolesController extends Controller
 {
     /**
@@ -60,38 +60,36 @@ class RolesController extends Controller
          }else{
             $files = '';
          }
-        Role::create([
-         'sr_number' => $input['sr_number'],
-         'applicant_name' => $input['applicant_name'],
-         'applicant_civil_id' => $input['applicant_civil_id'],
-         'action_taken' => $input['action_taken'],
-         'action_status' => $input['action_status'],
-         'action_date' => $input['action_date'],
-         'applicant_degree' => $input['applicant_degree'],
-         'applicant_academic' => $input['applicant_academic'],
-         'applicant_job_title' => $input['applicant_job_title'],
-         'csc_organization' => $input['csc_organization'],
-         'outgoing_letter_number' => $input['outgoing_letter_number'],
-         'source_name' => $input['source_name'],
-         'source_description' => $input['source_description'],
-         'source_secreatary_name' => $input['source_secreatary_name'],
-         'secreatary_mobile' => $input['secreatary_mobile'],
-         'eligible_requests' => $input['eligible_requests'],
-         'current_request' => $input['current_request'],
-         'remaining_request' => $input['remaining_request'],
-         'additional_request' => $input['additional_request'],
-         'total_request' => $input['total_request'],
-         'subject' => $input['subject'],
-         'from_sector' => $input['from_sector'],
-         'from_department' => $input['from_department'],
-         'attachment' => implode($files),
-         'to_sector' => $input['to_sector'],
-         'to_department' => $input['to_department'],
-         'general_notes' => $input['general_notes'],
-         'special_notes' => $input['special_notes'],
+         $lastId = Role::create([
+            'role' => $input['role'],
+        ]);
+       foreach ($request['permission_id'] as $key => $value) {
 
-       ]);
+            $per = new RolePermission();
+            $per->permission_id = $value;
+            $per->role_id = $lastId->id;
+            $per->save();
+        }
        alert()->success('Successfull!','Your role is created.');
        return redirect()->route('roles');
     }
+
+
+    /**
+     * Load page with add/edit user data
+     *
+     * @param  mixed $roleID
+     * @return View
+     */
+    public function edit($role_id)
+    {
+
+        $roles = Role::find($role_id);
+        $selected_role_permission = RolePermission::where('role_id', $role_id)->pluck('permission_id')->toArray();
+
+        return view('role.edit',compact('roles','selected_role_permission'));
+
+    }
+
+
 }
