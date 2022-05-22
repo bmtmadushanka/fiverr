@@ -4,9 +4,10 @@ $(document).ready(function () {
     initEducationSelect();
 });
 
-$('#edu_upload_file').on('change',function () {
-    $('#edu_upload_span').text('File Selected');
-    $('#edu_upload_btn').attr('disabled',false);
+$('.upload').on('change',function () {
+    $(this).parent().find('span').text('File Selected');
+   // $(this).closest('span').text('File Selected');
+    $('#'+$(this).data('btn_name')).attr('disabled',false);
 
 })
 // Educations part Begin
@@ -45,7 +46,14 @@ function initEducationSelect() {
 
 $('#edu_crete_btn').on('click',function () {
     var name = $('#edu_name').val();
-
+    if (!name){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text:  'Please enter a valid Education name'
+        });
+        return false;
+    }
     $.ajax({
         type : 'POST',
         url : '/educations',
@@ -65,6 +73,14 @@ $('#edu_crete_btn').on('click',function () {
 
 $('#edu_delete_btn').on('click',function () {
     var id = $('#edu_select').val();
+    if (!id){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text:  'Please select an Education'
+        });
+        return false;
+    }
   //add confirm action swal
     Swal.fire({
         title: 'Are you sure?',
@@ -91,7 +107,9 @@ $('#edu_delete_btn').on('click',function () {
     })
 
 })
-$('#edu_upload_btn').on('click',function () {
+$('.upload_btn').on('click',function () {
+    var action = $(this).data('action');
+    var input_name = $(this).data('input_name');
     if($('#edu_upload_file')[0].files.length == 0){
         Swal.fire({
             icon: 'error',
@@ -121,6 +139,7 @@ $('#edu_upload_btn').on('click',function () {
 
 
 function show_success_response(response){
+
     Swal.fire('Success',response.msg,'success');
     //alert(response.msg);
 }
@@ -128,7 +147,6 @@ function show_error_response(response){
     Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: response.msg
+        text:  JSON.parse(response.responseText).msg
     });
-   // alert(response.msg);
 }

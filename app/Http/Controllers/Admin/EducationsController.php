@@ -49,11 +49,17 @@ class EducationsController extends Controller
     public function store(Request $request)
     {
         try {
+            $exist = Education::where('name',$request->name)->exists();
 
-            $education = Education::create(['name' => $request->name]);
-            if ($education) {
-                return response()->json(['success'=>true , 'msg'=> 'Education added successfully'],200);
+            if (!$exist){
+                $education = Education::create(['name' => $request->name]);
+                if ($education) {
+                    return response()->json(['success'=>true , 'msg'=> 'Education added successfully'],200);
+                }
+            }else{
+                return response()->json(['success'=>false , 'msg'=> 'Education already exist'],400);
             }
+
         }catch (\Exception $e){
             return response()->json(['success'=>false , 'msg'=> 'Something went wrong'],500);
         }
