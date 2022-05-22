@@ -23,10 +23,10 @@
     <div class="col-md-4 mb-3 mt-3">
         <button type="button" id="note_delete_btn" class="btn btn-danger mr-2">Delete</button>
         <button type="button" id="note_crete_btn" class="btn btn-success mr-2">Add</button>
-        <button type="button" id="note_upload_btn" class="btn btn-info mr-2" disabled>Upload</button>
+        <button type="button" data-action="{{route('note.import')}}" data-input_name="note_upload_file" id="note_upload_btn" class="btn btn-info mr-2 upload_btn" disabled>Upload</button>
         <div class="fileUpload btn btn-primary">
-            <span id="note_upload_span">Choose</span>
-            <input id="note_upload_file" type="file" class="upload"/>
+            <span class="input_name">Choose</span>
+            <input id="note_upload_file" type="file" class="upload" data-btn_name="note_upload_btn"/>
         </div>
 
     </div>
