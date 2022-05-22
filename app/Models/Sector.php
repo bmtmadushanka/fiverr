@@ -10,6 +10,8 @@ class Sector extends Model
 {
     use HasFactory,SoftDeletes;
 
+    protected $fillable = ['name'];
+
     public function departments()
     {
         return $this->hasMany(Department::class);

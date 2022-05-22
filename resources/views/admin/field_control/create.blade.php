@@ -15,120 +15,11 @@
                             <h5>VIP Order Tracking System - Field Control</h5>
                         </div>
 
-                        <div class="form-row">
-                            <label for="" class="col-sm-1 col-form-label mb-3 mt-3">Educations</label>
-                            <div class="col-md-3 mb-3 mt-3">
-                                <select name="" id="edu_select" class="form-control">
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please Select Action Taken.
-                                </div>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                            </div>
-                            <label for="" class="col-sm-1 col-form-label mb-3 mt-3"></label>
-                            <div class="col-md-3 mb-3 mt-3">
-                                <input type="text" name="" id="edu_name" class="form-control ">
-                                <div class="invalid-feedback">
-                                    Please Select Action Status.
-                                </div>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3 mt-3">
-                                <button type="button" id="edu_delete_btn" class="btn btn-danger mr-2">Delete</button>
-                                <button type="button" id="edu_crete_btn" class="btn btn-success mr-2">Add</button>
-                                <button type="button" data-action="{{route('education.import')}}" id="edu_upload_btn" class="btn btn-info mr-2" disabled>Upload</button>
-                                <div class="fileUpload btn btn-primary">
-                                    <span id="edu_upload_span">Choose</span>
-                                    <input id="edu_upload_file" type="file" class="upload"/>
-                                </div>
+                        @include('admin.field_control.partials.education_row')
+                        @include('admin.field_control.partials.notes_row')
+                        @include('admin.field_control.partials.sector_row')
+                        @include('admin.field_control.partials.department_row')
 
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <label for="" class="col-sm-1 col-form-label mb-3 mt-3">Notes</label>
-                            <div class="col-md-3 mb-3 mt-3">
-                                <select name="" id="" class="form-control select2" required>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please Select Action Taken.
-                                </div>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                            </div>
-                            <label for="" class="col-sm-1 col-form-label mb-3 mt-3"></label>
-                            <div class="col-md-3 mb-3 mt-3">
-                                <input name="" id="" class="form-control select2" required>
-                                <div class="invalid-feedback">
-                                    Please Select Action Status.
-                                </div>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-3 mt-3">
-                                <button type="button" id="" class="btn btn-danger mr-2">Delete</button>
-                                <button type="button" id="" class="btn btn-success mr-2">Add</button>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <label for="" class="col-sm-1 col-form-label mb-3 mt-3">Sectors</label>
-                            <div class="col-md-3 mb-3 mt-3">
-                                <select name="" id="" class="form-control select2" required>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please Select Action Taken.
-                                </div>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                            </div>
-                            <label for="" class="col-sm-1 col-form-label mb-3 mt-3"></label>
-                            <div class="col-md-3 mb-3 mt-3">
-                                <input name="" id="" class="form-control select2" required>
-                                <div class="invalid-feedback">
-                                    Please Select Action Status.
-                                </div>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-3 mt-3">
-                                <button type="button" id="" class="btn btn-danger mr-2">Delete</button>
-                                <button type="button" id="" class="btn btn-success mr-2">Add</button>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <label for="" class="col-sm-1 col-form-label mb-3 mt-3">Departments</label>
-                            <div class="col-md-3 mb-3 mt-3">
-                                <select name="" id="" class="form-control select2" required>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please Select Action Taken.
-                                </div>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                            </div>
-                            <label for="" class="col-sm-1 col-form-label mb-3 mt-3"></label>
-                            <div class="col-md-3 mb-3 mt-3">
-                                <input name="" id="" class="form-control select2" required>
-                                <div class="invalid-feedback">
-                                    Please Select Action Status.
-                                </div>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-3 mt-3">
-                                <button type="button" id="" class="btn btn-danger mr-2">Delete</button>
-                                <button type="button" id="" class="btn btn-success mr-2">Add</button>
-                            </div>
-                        </div>
 
                         {{--Default row -- uncomment or copy if need to add new row--}}
                         {{--<div class="form-row">
@@ -159,9 +50,6 @@
                             </div>
                         </div>--}}
 
-                        <div class="form-row">
-                            <button class="btn btn-success mb-3 mt-3" type="submit">Save Details</button>
-                        </div>
                     </form>
                 </div>
             </div>
