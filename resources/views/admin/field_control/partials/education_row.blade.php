@@ -1,5 +1,5 @@
 <div class="form-row">
-    <label for="" class="col-sm-1 col-form-label mb-3 mt-3">Educations</label>
+    <label for="" class="col-sm-1 col-form-label mb-3 mt-3">CSC Educations</label>
     <div class="col-md-3 mb-3 mt-3">
         <select name="" id="edu_select" class="form-control">
         </select>
@@ -23,7 +23,7 @@
     <div class="col-md-4 mb-3 mt-3">
         <button type="button" id="edu_delete_btn" class="btn btn-danger mr-2">Delete</button>
         <button type="button" id="edu_crete_btn" class="btn btn-success mr-2">Add</button>
-        <button type="button" data-action="{{route('education.import')}}" data-input_name="edu_upload_file" id="edu_upload_btn" class="btn btn-info mr-2 upload_btn" disabled>Upload</button>
+        <button type="button" data-action="{{route('csc-education.import')}}" data-input_name="edu_upload_file" id="edu_upload_btn" class="btn btn-info mr-2 upload_btn" disabled>Upload</button>
         <div class="fileUpload btn btn-primary">
             <span class="input_name">Choose</span>
             <input id="edu_upload_file" type="file" class="upload" data-btn_name="edu_upload_btn"/>

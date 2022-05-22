@@ -16,6 +16,7 @@
                         </div>
 
                         @include('admin.field_control.partials.education_row')
+                        @include('admin.field_control.partials.non_csc_education_row')
                         @include('admin.field_control.partials.notes_row')
                         @include('admin.field_control.partials.sector_row')
                         @include('admin.field_control.partials.department_row')
