@@ -76,8 +76,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/roles', [App\Http\Controllers\RolesController::class, 'index'])->name('roles');
 Route::get('/roles-create', [App\Http\Controllers\RolesController::class, 'create'])->name('role.create');
 Route::post('/roles-store', [App\Http\Controllers\RolesController::class, 'store'])->name('role.store');
-Route::get('/roles-edit/{$id}', [App\Http\Controllers\RolesController::class, 'edit'])->name('role.edit');
-Route::get('/roles-update/{$id}', [App\Http\Controllers\RolesController::class, 'update'])->name('role.update');
+Route::get('/roles-edit/{id}', [App\Http\Controllers\RolesController::class, 'edit'])->name('role.edit');
+Route::get('/roles-update/{id}', [App\Http\Controllers\RolesController::class, 'update'])->name('role.update');
 Route::post('/roles-delete', [App\Http\Controllers\RolesController::class, 'delete'])->name('role.delete');
 
 /** Users Module Ends */
