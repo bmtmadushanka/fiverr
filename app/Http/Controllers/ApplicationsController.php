@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Applications;
+use App\Models\Education;
+use App\Models\Note;
+use App\Models\Sector;
 
 class ApplicationsController extends Controller
 {
@@ -36,13 +39,18 @@ class ApplicationsController extends Controller
     public function create()
     {
         $Applications = Applications::latest('id')->first();
-       
+        
         if($Applications){
             $sr_number= $Applications->sr_number + 1;
         }else{
             $sr_number= 1;
         }
-        return view('application.create',compact('sr_number'));
+
+        $educations = Education::All();
+        $notes = Note::All();
+        $sectors = Sector::All();
+
+        return view('application.create',compact('sr_number','educations','notes','sectors'));
     }
 
      /**

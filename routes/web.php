@@ -52,6 +52,7 @@ Route::post('/sectors', [App\Http\Controllers\Admin\SectorsController::class, 's
 Route::post('/sectors/import', [App\Http\Controllers\Admin\SectorsController::class, 'import'])->name('sector.import');
 Route::put('/sectors/{id}', [App\Http\Controllers\Admin\SectorsController::class, 'update'])->name('sector.update');
 Route::delete('/sectors/{id}', [App\Http\Controllers\Admin\SectorsController::class, 'destroy'])->name('sector.destroy');
+Route::post('/sectors/from_department', [App\Http\Controllers\Admin\SectorsController::class, 'from_department'])->name('sector.from_department');
 
 //Departments
 Route::get('/departments', [App\Http\Controllers\Admin\DepartmentsController::class, 'index'])->name('department.all');

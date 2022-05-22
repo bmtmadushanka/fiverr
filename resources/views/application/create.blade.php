@@ -55,18 +55,10 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">الإجراء</label>
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="action_taken" id="action_taken" class="form-control select2" required>
-                                <option>Person one</option>
-                                <option>incoming mail</option>
-                                <option>Signed</option>
-                                <option>Not signed</option>
-                                <option>save</option>
-                                <option>A committee</option>
-                                <option>Converted</option>
-                                <option>Specialization not required</option>
-                                <option>Cancellation</option>
-                                <option>need work</option>
-                                <option>run out</option>
-                                <option>The meaning has been delivered</option>
+                                <option>بريد وارد</option>
+                                <option>تم التنفيذ</option>
+                                <option>عمل احتياج</option>
+                                <option>ملغي</option>
                             </select>
                             <div class="invalid-feedback">
                                     Please Select Action Taken.
@@ -105,9 +97,9 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">الدرجة العلمية</label>
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="applicant_degree" id="applicant_degree" class="form-control select2" required>
-                                <option>Degree one</option>
-                                <option>Degree Two</option>
-                                <option>Degree Three</option>
+                                @foreach ($educations as $data)
+                                <option {{$data->id}}>{{$data->name}}</option>
+                                @endforeach
                             </select>
                             <div class="invalid-feedback">
                                     Please Select Degree.
@@ -306,9 +298,9 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">من قطاع</label>
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="from_sector" id="from_sector" class="form-control select2" required>
-                                <option>Sector one</option>
-                                <option>Sector Two</option>
-                                <option>Sector Three</option>
+                                @foreach ($sectors as $data)
+                                <option {{$data->id}}>{{$data->name}}</option>
+                                @endforeach
                             </select>
                             <div class="invalid-feedback">
                                     Please Select From Sector.
@@ -320,9 +312,8 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">إدارة</label>
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="from_department" id="from_department" class="form-control select2" required>
-                                <option>Department one</option>
-                                <option>Department Two</option>
-                                <option>Department Three</option>
+                                <option>-</option>
+                                
                             </select>
                             <div class="invalid-feedback">
                                     Please Select Department.
@@ -416,5 +407,37 @@
             });
         }, false);
     })();
+    $('#from_sector').select2({
+        minimumInputLength: 2,
+        ajax: {
+            url: "{{route('sector.from_department')}}",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+            return {
+                q: params.term, // search term
+                
+            };
+            },
+            processResults: function(data) {
+                return {
+                    results: $.map(data, function(item) {
+                        return {
+                            text: item.name,
+                            id: item.id,
+                          
+                        }
+                    })
+                };
+            },
+            cache: true
+        },
+        width: '100%',
+        // minimumInputLength: 2,
+    }).on('select2:select', function(e) {
+        var data = e.params.data; 
+        $('#from_department').append($('<option>').val(data.id).text(data.text))
+        $('#from_department').val(data.id).trigger('change'); 
+    });
 </script>
 @endsection
