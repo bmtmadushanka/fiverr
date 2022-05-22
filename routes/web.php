@@ -40,19 +40,21 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
     Route::put('/educations/{id}', [App\Http\Controllers\Admin\EducationsController::class, 'update'])->name('education.update');
     Route::delete('/educations/{id}', [App\Http\Controllers\Admin\EducationsController::class, 'destroy'])->name('education.destroy');
 
-    //Educations
+    //Notes
     Route::get('/notes', [App\Http\Controllers\Admin\NotesController::class, 'index'])->name('note.all');
     Route::post('/notes', [App\Http\Controllers\Admin\NotesController::class, 'store'])->name('note.store');
     Route::post('/notes/import', [App\Http\Controllers\Admin\NotesController::class, 'import'])->name('note.import');
     Route::put('/notes/{id}', [App\Http\Controllers\Admin\NotesController::class, 'update'])->name('note.update');
     Route::delete('/notes/{id}', [App\Http\Controllers\Admin\NotesController::class, 'destroy'])->name('note.destroy');
 
-
-
     //Sectors
+    Route::get('/sectors', [App\Http\Controllers\Admin\SectorsController::class, 'index'])->name('sector.all');
     Route::post('/sectors', [App\Http\Controllers\Admin\SectorsController::class, 'store'])->name('sector.store');
+    Route::post('/sectors/import', [App\Http\Controllers\Admin\SectorsController::class, 'import'])->name('sector.import');
     Route::put('/sectors/{id}', [App\Http\Controllers\Admin\SectorsController::class, 'update'])->name('sector.update');
-    Route::delete('/sectors/{id}', [App\Http\Controllers\Admin\SectorsController::class, 'delete'])->name('sector.delete');
+    Route::delete('/sectors/{id}', [App\Http\Controllers\Admin\SectorsController::class, 'destroy'])->name('sector.destroy');
+
+
 
     //Departments
     Route::post('/departments', [App\Http\Controllers\Admin\DepartmentsController::class, 'store'])->name('department.store');

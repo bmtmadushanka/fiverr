@@ -3,6 +3,7 @@
 $(document).ready(function () {
     initEducationSelect();
     initNoteSelect();
+    initSectorSelect();
 });
 
 $('.upload').on('change',function () {
@@ -205,6 +206,104 @@ $('#note_delete_btn').on('click',function () {
 
 })
 // ========Notes part Ends=============//
+//
+// ========Sectors part Begin=============//
+function initSectorSelect() {
+    $('#sector_select').select2({
+        placeholder : 'Sectors',
+        ajax: {
+            url: '/sectors',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    term: params.term, // search term
+                };
+            },
+            processResults: function (data) {
+                var data_formated = [];
+                data.forEach(function (item) {
+                    var temp = {
+                        'id': item.id,
+                        'text': item.name
+                    }
+                    data_formated.push(temp);
+                });
+                return {
+                    results: data_formated
+                };
+            }
+        },
+        //minimumInputLength: 1,
+        minimumResultsForSearch: -1
+    });
+}
+
+
+$('#sector_crete_btn').on('click',function () {
+    var name = $('#sector_name').val();
+
+    if (!name){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text:  'Please enter a valid Sector name'
+        });
+        return false;
+    }
+    $.ajax({
+        type : 'POST',
+        url : '/sectors',
+        data : {
+            name : name
+        },
+        success : function (res) {
+            show_success_response(res);
+            $('#sector_name').val('');
+        },
+        error : function (res) {
+            show_error_response(res);
+        }
+    });
+})
+
+
+$('#sector_delete_btn').on('click',function () {
+    let id = $('#sector_select').val();
+    if (!id){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text:  'Please select a Sector'
+        });
+        return false;
+    }
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.value === true) {
+            $.ajax({
+                type : 'delete',
+                url : '/sectors/'+id,
+                success : function (res) {
+                    $('#sector_select').empty().trigger('change')
+                    show_success_response(res);
+                },
+                error : function (res) {
+                    show_error_response(res);
+                }
+            });
+        }
+    })
+
+})
+// ========Sectors part Ends=============//
 
 //Common file import function
 $('.upload_btn').on('click',function () {

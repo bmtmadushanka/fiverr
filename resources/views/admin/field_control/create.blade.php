@@ -17,34 +17,8 @@
 
                         @include('admin.field_control.partials.education_row')
                         @include('admin.field_control.partials.notes_row')
+                        @include('admin.field_control.partials.sector_row')
 
-                        <div class="form-row">
-                            <label for="" class="col-sm-1 col-form-label mb-3 mt-3">Sectors</label>
-                            <div class="col-md-3 mb-3 mt-3">
-                                <select name="" id="" class="form-control select2" required>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please Select Action Taken.
-                                </div>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                            </div>
-                            <label for="" class="col-sm-1 col-form-label mb-3 mt-3"></label>
-                            <div class="col-md-3 mb-3 mt-3">
-                                <input name="" id="" class="form-control select2" required>
-                                <div class="invalid-feedback">
-                                    Please Select Action Status.
-                                </div>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-3 mt-3">
-                                <button type="button" id="" class="btn btn-danger mr-2">Delete</button>
-                                <button type="button" id="" class="btn btn-success mr-2">Add</button>
-                            </div>
-                        </div>
                         <div class="form-row">
                             <label for="" class="col-sm-1 col-form-label mb-3 mt-3">Departments</label>
                             <div class="col-md-3 mb-3 mt-3">
