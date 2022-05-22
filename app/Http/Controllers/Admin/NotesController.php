@@ -108,7 +108,7 @@ class NotesController extends Controller
     public function destroy($id)
     {
         Note::destroy($id);
-        return response()->json(['msg'=>'Education Deleted successfully']);
+        return response()->json(['msg'=>'Note Deleted successfully']);
     }
 
     public function import(Request $request)

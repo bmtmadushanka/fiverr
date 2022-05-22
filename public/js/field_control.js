@@ -4,6 +4,7 @@ $(document).ready(function () {
     initEducationSelect();
     initNoteSelect();
     initSectorSelect();
+    initDepartmentSelect();
 });
 
 $('.upload').on('change',function () {
@@ -209,7 +210,8 @@ $('#note_delete_btn').on('click',function () {
 //
 // ========Sectors part Begin=============//
 function initSectorSelect() {
-    $('#sector_select').select2({
+    $('#sector_select,#department_sector_select').select2({
+
         placeholder : 'Sectors',
         ajax: {
             url: '/sectors',
@@ -293,6 +295,7 @@ $('#sector_delete_btn').on('click',function () {
                 url : '/sectors/'+id,
                 success : function (res) {
                     $('#sector_select').empty().trigger('change')
+                    $('#department_sector_select').empty().trigger('change')
                     show_success_response(res);
                 },
                 error : function (res) {
@@ -304,6 +307,121 @@ $('#sector_delete_btn').on('click',function () {
 
 })
 // ========Sectors part Ends=============//
+//
+// ========Departments part Begin=============//
+function initDepartmentSelect() {
+    let sector_id = $('#department_sector_select').val();
+    $('#department_select').select2({
+        placeholder : 'Departments',
+        ajax: {
+            url: '/departments',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    term: params.term, // search term
+                    sector_id : sector_id
+                };
+            },
+            processResults: function (data) {
+                var data_formated = [];
+                data.forEach(function (item) {
+                    var temp = {
+                        'id': item.id,
+                        'text': item.name
+                    }
+                    data_formated.push(temp);
+                });
+                return {
+                    results: data_formated
+                };
+            }
+        },
+        //minimumInputLength: 1,
+        minimumResultsForSearch: -1
+    });
+}
+
+$('#department_sector_select').on('change',function () {
+    initDepartmentSelect();
+})
+
+
+$('#department_crete_btn').on('click',function () {
+    var name = $('#department_name').val();
+    var sector_id = $('#department_sector_select').val();
+
+    if (!name){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text:  'Please enter a valid Departments name'
+        });
+        return false;
+    }
+    if (!sector_id){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text:  'Please select a Sector'
+        });
+        return false;
+    }
+    $.ajax({
+        type : 'POST',
+        url : '/departments',
+        data : {
+            name : name,
+            sector_id : sector_id,
+        },
+        success : function (res) {
+            show_success_response(res);
+            $('#department_name').val('');
+        },
+        error : function (res) {
+            show_error_response(res);
+        }
+    });
+})
+
+
+$('#department_delete_btn').on('click',function () {
+    let id = $('#department_select').val();
+    if (!id){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text:  'Please select a Department'
+        });
+        return false;
+    }
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.value === true) {
+            $.ajax({
+                type : 'delete',
+                url : '/departments/'+id,
+                success : function (res) {
+                    $('#department_selector_select').empty().trigger('change');
+                    $('#department_select').empty().trigger('change');
+                    show_success_response(res);
+                },
+                error : function (res) {
+                    show_error_response(res);
+                }
+            });
+        }
+    })
+
+})
+// ========Departments part Ends=============//
 
 //Common file import function
 $('.upload_btn').on('click',function () {
