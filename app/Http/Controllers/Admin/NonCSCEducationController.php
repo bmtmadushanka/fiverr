@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Education;
+use App\Models\NonCSCEducation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Rap2hpoutre\FastExcel\FastExcel;
 
-class EducationsController extends Controller
+class NonCSCEducationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,10 +19,10 @@ class EducationsController extends Controller
     {
         $term = $request->term;
         if (empty($term)) {
-            $educations = Education::orderby('name', 'ASC')->select('id', 'name')->get();
+            $educations = NonCSCEducation::orderby('name', 'ASC')->select('id', 'name')->get();
         } else {
 
-            $educations = Education::where('name', 'like', '%' . $request->search . '%')->orderby('name', 'ASC')->select('id', 'name')->get();
+            $educations = NonCSCEducation::where('name', 'like', '%' . $request->search . '%')->orderby('name', 'ASC')->select('id', 'name')->get();
         }
         // dd($educations);
         return response()->json($educations);
@@ -48,12 +48,12 @@ class EducationsController extends Controller
     public function store(Request $request)
     {
         try {
-            $exist = Education::where('name', $request->name)->exists();
+            $exist = NonCSCEducation::where('name', $request->name)->exists();
 
             if (!$exist) {
-                $education = Education::create(['name' => $request->name]);
+                $education = NonCSCEducation::create(['name' => $request->name]);
                 if ($education) {
-                    return response()->json(['success' => true, 'msg' => 'Education added successfully'], 200);
+                    return response()->json(['success' => true, 'msg' => 'NonCSCEducation added successfully'], 200);
                 }
             } else {
                 return response()->json(['success' => false, 'msg' => 'Education already exist'], 400);
@@ -106,7 +106,7 @@ class EducationsController extends Controller
      */
     public function destroy($id)
     {
-        Education::destroy($id);
+        NonCSCEducation::destroy($id);
         return response()->json(['msg' => 'Education Deleted successfully']);
     }
 
@@ -114,19 +114,19 @@ class EducationsController extends Controller
     {
         try {
             DB::beginTransaction();
-            $exist_edus = Education::all()->pluck('name')->toArray();
+            $exist_edus = NonCSCEducation::all()->pluck('name')->toArray();
             $new_records= [];
             if ($request->hasFile('import_file')) {
                 $file = $request->file('import_file');
                 $col = (new FastExcel())->import($file);
                 foreach ($col as $line){
-                    if (!in_array($line['CSC Education'], $exist_edus) && !empty($line['CSC Education'])) {
-                        array_push($new_records,['name'=>$line['CSC Education']]);
-                        array_push($exist_edus, $line['CSC Education']); // to avoid same excel duplicates
+                    if (!in_array($line['Education'], $exist_edus) && !empty($line['Education'])) {
+                        array_push($new_records,['name'=>$line['Education']]);
+                        array_push($exist_edus, $line['Education']); // to avoid same excel duplicates
                     }
                 }
 
-                Education::insert($new_records);
+                NonCSCEducation::insert($new_records);
             }
             DB::commit();
             return response()->json(['msg' => 'Educations Created successfully']);

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use App\Models\Sector;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
@@ -114,20 +116,26 @@ class SectorsController extends Controller
 
     public function import(Request $request)
     {
-       try{ //todo complete this with departments
+       try{
            DB::beginTransaction();
-           $exist_edus = Sector::all()->pluck('name')->toArray();
-
+            $formatted_arr = array();
            if ($request->hasFile('import_file')) {
                $file = $request->file('import_file');
-               $eds = (new FastExcel())->import($file,function ($line) use ($exist_edus){
-                   dd($line);
-                   if (!in_array($line['CSC Notes'],$exist_edus) && !empty($line['CSC Notes'])){
-                       Sector::create(['name'=> $line['CSC Notes']]);
-                       array_push($exist_edus,$line['CSC Notes']); // to avoid same excel duplicates
-                   }
+               $eds = (new FastExcel())->import($file);
 
-               });
+               foreach ($eds as $line) {
+                   if (!array_key_exists($line['SECTOR'], $formatted_arr)) {
+                       $formatted_arr[$line['SECTOR']] = [new Department(['name'=>$line['DEPARTMENT']])];
+                   } else {
+                       array_push($formatted_arr[$line['SECTOR']], new Department(['name'=>$line['DEPARTMENT']]));
+                   }
+               }
+
+               foreach ($formatted_arr as $sector=>$departments){
+                   $ex_sector = Sector::firstOrCreate(['name'=>$sector]);
+                    $ex_sector->departments()->saveMany($departments);
+               }
+
            }
             DB::commit();
            return response()->json(['msg'=>'Sectors Created successfully']);

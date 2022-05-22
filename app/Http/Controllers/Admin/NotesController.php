@@ -116,16 +116,18 @@ class NotesController extends Controller
        try{
            DB::beginTransaction();
            $exist_edus = Note::all()->pluck('name')->toArray();
-
+           $new_records= [];
            if ($request->hasFile('import_file')) {
                $file = $request->file('import_file');
-               $eds = (new FastExcel())->import($file,function ($line) use ($exist_edus){
-                   if (!in_array($line['CSC Notes'],$exist_edus) && !empty($line['CSC Notes'])){
-                       Note::create(['name'=> $line['CSC Notes']]);
-                       array_push($exist_edus,$line['CSC Notes']); // to avoid same excel duplicates
+               $col = (new FastExcel())->import($file);
+               foreach ($col as $line){
+                   if (!in_array($line['CSC Notes'], $exist_edus) && !empty($line['CSC Notes'])) {
+                       array_push($new_records,['name'=>$line['CSC Notes']]);
+                       array_push($exist_edus, $line['CSC Notes']); // to avoid same excel duplicates
                    }
+               }
 
-               });
+               Note::insert($new_records);
            }
             DB::commit();
            return response()->json(['msg'=>'Educations Created successfully']);

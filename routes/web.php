@@ -32,12 +32,20 @@ Route::post('/application-delete', [App\Http\Controllers\ApplicationsController:
 /** Field Control Module Begin */
 Route::get('/field-control', [\App\Http\Controllers\Admin\FieldControlController::class, 'create'])->name('field-control.create');
 
+//CSC Educations
+Route::get('/csc-educations', [App\Http\Controllers\Admin\EducationsController::class, 'index'])->name('csc-education.all');
+Route::post('/csc-educations', [App\Http\Controllers\Admin\EducationsController::class, 'store'])->name('csc-education.store');
+Route::post('/csc-educations/import', [App\Http\Controllers\Admin\EducationsController::class, 'import'])->name('csc-education.import');
+Route::put('/csc-educations/{id}', [App\Http\Controllers\Admin\EducationsController::class, 'update'])->name('csc-education.update');
+Route::delete('/csc-educations/{id}', [App\Http\Controllers\Admin\EducationsController::class, 'destroy'])->name('csc-education.destroy');
+
+
 //Educations
-Route::get('/educations', [App\Http\Controllers\Admin\EducationsController::class, 'index'])->name('education.all');
-Route::post('/educations', [App\Http\Controllers\Admin\EducationsController::class, 'store'])->name('education.store');
-Route::post('/educations/import', [App\Http\Controllers\Admin\EducationsController::class, 'import'])->name('education.import');
-Route::put('/educations/{id}', [App\Http\Controllers\Admin\EducationsController::class, 'update'])->name('education.update');
-Route::delete('/educations/{id}', [App\Http\Controllers\Admin\EducationsController::class, 'destroy'])->name('education.destroy');
+Route::get('/educations', [App\Http\Controllers\Admin\NonCSCEducationController::class, 'index'])->name('education.all');
+Route::post('/educations', [App\Http\Controllers\Admin\NonCSCEducationController::class, 'store'])->name('education.store');
+Route::post('/educations/import', [App\Http\Controllers\Admin\NonCSCEducationController::class, 'import'])->name('education.import');
+Route::put('/educations/{id}', [App\Http\Controllers\Admin\NonCSCEducationController::class, 'update'])->name('education.update');
+Route::delete('/educations/{id}', [App\Http\Controllers\Admin\NonCSCEducationController::class, 'destroy'])->name('education.destroy');
 
 //Notes
 Route::get('/notes', [App\Http\Controllers\Admin\NotesController::class, 'index'])->name('note.all');
