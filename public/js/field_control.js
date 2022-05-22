@@ -62,18 +62,31 @@ $('#edu_crete_btn').on('click',function () {
 
 $('#edu_delete_btn').on('click',function () {
     var id = $('#edu_select').val();
-  //add confirm ation swal
-    $.ajax({
-        type : 'delete',
-        url : '/educations/'+id,
-        success : function (res) {
-            $('#edu_select').empty().trigger('change')
-            show_success_response(res);
-        },
-        error : function (res) {
-            show_error_response(res);
+  //add confirm action swal
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.value === true) {
+            $.ajax({
+                type : 'delete',
+                url : '/educations/'+id,
+                success : function (res) {
+                    $('#edu_select').empty().trigger('change')
+                    show_success_response(res);
+                },
+                error : function (res) {
+                    show_error_response(res);
+                }
+            });
         }
-    });
+    })
+
 })
 $('#edu_upload_btn').on('click',function () {
     let file = new FormData();
