@@ -4,8 +4,10 @@ $(document).ready(function () {
     initEducationSelect();
 });
 
-$('.upload').on('change',function () {
-    $(this).closest('span').innerText = 'Uploaded';
+$('#edu_upload_file').on('change',function () {
+    $('#edu_upload_span').text('File Selected');
+    $('#edu_upload_btn').attr('disabled',false);
+
 })
 // Educations part Begin
 
@@ -36,6 +38,7 @@ function initEducationSelect() {
             }
         },
         //minimumInputLength: 1,
+        minimumResultsForSearch: -1
     });
 }
 
@@ -89,22 +92,31 @@ $('#edu_delete_btn').on('click',function () {
 
 })
 $('#edu_upload_btn').on('click',function () {
-    let file = new FormData();
-    file.append('import_file',$('#edu_upload_file')[0].files[0]);
-    $.ajax({
-        type : 'post',
-        url : '/educations/import',
-        data: file,
-        processData: false,
-        contentType: false,
-        success : function (res) {
-            $('#edu_select').empty().trigger('change')
-            show_success_response(res);
-        },
-        error : function (res) {
-            show_error_response(res);
-        }
-    });
+    if($('#edu_upload_file')[0].files.length == 0){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please select file to upload'
+        });
+    }else{
+        let file = new FormData();
+        file.append('import_file',$('#edu_upload_file')[0].files[0]);
+        $.ajax({
+            type : 'post',
+            url : '/educations/import',
+            data: file,
+            processData: false,
+            contentType: false,
+            success : function (res) {
+                $('#edu_select').empty().trigger('change')
+                show_success_response(res);
+            },
+            error : function (res) {
+                show_error_response(res);
+            }
+        });
+    }
+
 })
 
 

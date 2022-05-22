@@ -40,9 +40,9 @@
                             <div class="col-md-4 mb-3 mt-3">
                                 <button type="button" id="edu_delete_btn" class="btn btn-danger mr-2">Delete</button>
                                 <button type="button" id="edu_crete_btn" class="btn btn-success mr-2">Add</button>
-                                <button type="button" data-action="{{route('education.import')}}" id="edu_upload_btn" class="btn btn-info mr-2">Upload</button>
+                                <button type="button" data-action="{{route('education.import')}}" id="edu_upload_btn" class="btn btn-info mr-2" disabled>Upload</button>
                                 <div class="fileUpload btn btn-primary">
-                                    <span>Choose</span>
+                                    <span id="edu_upload_span">Choose</span>
                                     <input id="edu_upload_file" type="file" class="upload"/>
                                 </div>
 
