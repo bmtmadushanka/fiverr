@@ -36,12 +36,11 @@ class ApplicationsController extends Controller
     public function create()
     {
         $Applications = Applications::latest('id')->first();
+       
         if($Applications){
             $sr_number= $Applications->sr_number + 1;
-
         }else{
             $sr_number= 1;
-
         }
         return view('application.create',compact('sr_number'));
     }
@@ -65,7 +64,7 @@ class ApplicationsController extends Controller
                 $files[] = $name;  
             }
          }else{
-            $files = '';
+            $files = [];
          }
         Applications::create([
          'sr_number' => $input['sr_number'],

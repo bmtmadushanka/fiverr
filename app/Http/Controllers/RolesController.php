@@ -86,10 +86,45 @@ class RolesController extends Controller
 
         $roles = Role::find($role_id);
         $selected_role_permission = RolePermission::where('role_id', $role_id)->pluck('permission_id')->toArray();
-
+       
         return view('role.edit',compact('roles','selected_role_permission'));
 
     }
 
 
+    public function update(Request $request, $role_id)
+    {
+
+        $roles = Role::find($role_id);
+        $roles->role = $request->role;
+        $roles->save();
+
+        RolePermission::where('role_id', $role_id)->delete();
+        foreach ($request['permission_id'] as $key => $value) {
+
+            $per = new RolePermission();
+            $per->permission_id = $value;
+            $per->role_id = $role_id;
+            $per->save();
+        }
+
+        alert()->success('Successfull!','Your role is edited.');
+        return redirect()->route('roles');
+
+    }
+
+    public function delete(Request $request , $role_id)
+    {
+        RolePermission::where('role_id', $role_id)->delete();
+        Role::where('id',$role_id)->delete();
+        alert()->success('Successfull!','your role deleted.');
+        return redirect()->route('roles');
+    }
+
+    public function permission(Request $reques)
+    {
+        $data['selected_permissions'] = RolePermission::where('role_id', $reques->role_id)->pluck('permission_id')->toArray();
+
+        echo json_encode($data);       
+    }
 }

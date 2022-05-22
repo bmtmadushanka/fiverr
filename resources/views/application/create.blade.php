@@ -56,8 +56,17 @@
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="action_taken" id="action_taken" class="form-control select2" required>
                                 <option>Person one</option>
-                                <option>Person Two</option>
-                                <option>Person Three</option>
+                                <option>incoming mail</option>
+                                <option>Signed</option>
+                                <option>Not signed</option>
+                                <option>save</option>
+                                <option>A committee</option>
+                                <option>Converted</option>
+                                <option>Specialization not required</option>
+                                <option>Cancellation</option>
+                                <option>need work</option>
+                                <option>run out</option>
+                                <option>The meaning has been delivered</option>
                             </select>
                             <div class="invalid-feedback">
                                     Please Select Action Taken.

@@ -18,6 +18,8 @@
 
 <script src="{{asset('assets/js/app.js')}}"></script>
 
+<script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
@@ -43,7 +45,7 @@
     $(document).ready( function () {
         //To set csrf token to all ajax calls
         $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('input[name="_token"]').val() } });
-          //$('#ErpTable').DataTable();
+          $('#ErpTable').DataTable();
           $('.select2').select2();
     } );
     $('.numaric').on('change, keyup', function () {
@@ -52,6 +54,7 @@
         $(this).val(fixedInput);
         console.log(fixedInput);
     });
+    
 </script>
 <!-- jQuery UI 1.11.4 -->
 

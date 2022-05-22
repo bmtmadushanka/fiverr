@@ -29,7 +29,7 @@
                                                 <a href="{{ route('role.edit', $data->id) }}"
                                                     class="btn btn-primary">Edit</a>
                                                 @csrf
-                                                {{ method_field('DELETE') }}
+                                                {{ method_field('POST') }}
                                                 <button class="btn btn-danger">Delete</button>
                                             </form>
                                         </td>

@@ -13,11 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -77,7 +76,8 @@ Route::get('/roles', [App\Http\Controllers\RolesController::class, 'index'])->na
 Route::get('/roles-create', [App\Http\Controllers\RolesController::class, 'create'])->name('role.create');
 Route::post('/roles-store', [App\Http\Controllers\RolesController::class, 'store'])->name('role.store');
 Route::get('/roles-edit/{id}', [App\Http\Controllers\RolesController::class, 'edit'])->name('role.edit');
-Route::get('/roles-update/{id}', [App\Http\Controllers\RolesController::class, 'update'])->name('role.update');
-Route::post('/roles-delete', [App\Http\Controllers\RolesController::class, 'delete'])->name('role.delete');
+Route::post('/roles-update/{id}', [App\Http\Controllers\RolesController::class, 'update'])->name('role.update');
+Route::post('/roles-delete/{id}', [App\Http\Controllers\RolesController::class, 'delete'])->name('role.delete');
+Route::post('/roles-permission', [App\Http\Controllers\RolesController::class, 'permission'])->name('role.permission');
 
 /** Users Module Ends */

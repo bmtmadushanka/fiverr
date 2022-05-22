@@ -27,7 +27,7 @@
                 <div class="card-body">
 
                     <div class="text-center m-b-15">
-                        <a href="" class="logo logo-admin"><img src="assets/images/logo.png" height="24" alt="logo"></a>
+                        <h3>Candidate Request Tracking System</h3>
                     </div>
 
                     <div class="p-3">

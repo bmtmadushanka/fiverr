@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserPermission extends Model
 {
     use HasFactory;
-    public $table = "tbl_user_permissions";
-    public $primaryKey = "user_permission_auto_id";
+  
     
 }
 

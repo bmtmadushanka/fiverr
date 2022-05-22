@@ -10,7 +10,7 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title"></h5>
-                        <table class="mb-0 table" id="ErpTable">
+                        <table class="mb-0 table" id="example">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -20,8 +20,19 @@
                                     <th>Request Date</th>
                                     <th>Action</th>
                                 </tr>
+                                <tr>
+                                    <th></th>
+                                    <th><input type="text" /></th>
+                                    <th><input type="text" /></th>
+                                    <th><input type="text" /></th>
+                                    <th><input type="text" /></th>
+                                    <th></th>
+                                </tr>
                             </thead>
+                            
+                            
                             <tbody>
+
                                 @isset($applications)                                    
                                 @foreach ($applications as $data)
                                     <tr>
@@ -51,5 +62,27 @@
 @endsection
 
 @section('scripts')
+<script>
+$(document).ready(function () {
+    
+    // DataTable
+    var table = $('#example').DataTable({
+        initComplete: function () {
+            // Apply the search
+            this.api()
+                .columns()
+                .every(function () {
+                    var that = this;
+ 
+                    $('input', this.header()).on('keyup change clear', function () {
+                        if (that.search() !== this.value) {
+                            that.search(this.value).draw();
+                        }
+                    });
+                });
+        },
+    });
+});
 
+</script>
 @endsection
