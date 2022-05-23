@@ -79,7 +79,8 @@ Route::delete('/departments/{id}', [App\Http\Controllers\Admin\DepartmentsContro
 Route::get('/users', [App\Http\Controllers\UsersController::class, 'index'])->name('users');
 Route::get('/user-create', [App\Http\Controllers\UsersController::class, 'create'])->name('user.create');
 Route::post('/user-store', [App\Http\Controllers\UsersController::class, 'store'])->name('user.store');
-Route::get('/user-edit', [App\Http\Controllers\UsersController::class, 'edit'])->name('user.edit');
+Route::get('/user-edit/{id}', [App\Http\Controllers\UsersController::class, 'edit'])->name('user.edit');
+Route::post('/user-update/{id}', [App\Http\Controllers\UsersController::class, 'update'])->name('user.update');
 Route::post('/user-delete', [App\Http\Controllers\UsersController::class, 'delete'])->name('user.delete');
 
 /** Users Module Ends */

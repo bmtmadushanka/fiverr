@@ -297,7 +297,7 @@
                     <div class="form-row">
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">من قطاع</label>
                         <div class="col-md-3 mb-3 mt-3">
-                            <select name="from_sector" id="from_sector" class="form-control select2" required>
+                            <select name="from_sector" id="from_sector" class="form-control" required>
                                 @foreach ($sectors as $data)
                                 <option {{$data->id}}>{{$data->name}}</option>
                                 @endforeach
@@ -407,37 +407,25 @@
             });
         }, false);
     })();
-    $('#from_sector').select2({
-        minimumInputLength: 2,
-        ajax: {
-            url: "{{route('sector.from_department')}}",
-            dataType: 'json',
-            delay: 250,
-            data: function (params) {
-            return {
-                q: params.term, // search term
-                
-            };
-            },
-            processResults: function(data) {
-                return {
-                    results: $.map(data, function(item) {
-                        return {
-                            text: item.name,
-                            id: item.id,
-                          
-                        }
-                    })
-                };
-            },
-            cache: true
-        },
-        width: '100%',
-        // minimumInputLength: 2,
-    }).on('select2:select', function(e) {
-        var data = e.params.data; 
-        $('#from_department').append($('<option>').val(data.id).text(data.text))
-        $('#from_department').val(data.id).trigger('change'); 
+    $('#from_sector').on("change", function(e) { 
+        var from_sector = $('#from_sector').val();
+        $.ajax({
+         url: "{{route('sector.from_department')}}",
+         method   : 'post',
+         data     : {
+            from_sector : from_sector,
+                  },
+         success  : function(response){
+            $.each(response,function(key, value)
+            {
+                $("#from_department").append('<option value=' + key + '>' + value + '</option>');
+            });
+
+         }
+      });
+        
+      
     });
+       
 </script>
 @endsection

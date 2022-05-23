@@ -90,10 +90,11 @@ class UsersController extends Controller
     public function edit($user_id)
     {
 
-        $users = User::find($user_id);
+        $user = User::find($user_id);
         $selected_user_permission = UserPermission::where('user_id', $user_id)->pluck('permission_id')->toArray();
-       
-        return view('user.edit',compact('users','selected_user_permission'));
+        $roles = Role::All();
+
+        return view('users.edit',compact('user','selected_user_permission','roles'));
 
     }
 
@@ -102,8 +103,28 @@ class UsersController extends Controller
     {
 
         $users = User::find($user_id);
-        $users->user = $request->user;
-        $users->save();
+
+        if($request->hasfile('user_image'))
+         {
+            
+            $name = time().rand(1,100).'.'.$request->user_image->extension();
+            $request->user_image->move(public_path('user_image'), $name);  
+            $files = $name;  
+            
+         }else{
+            $files = $users->user_image;
+         }
+
+         $users->name = $request->name;
+         $users->email = $request->email;
+         $users->role = $request->role;
+         $users->user_image = $files;
+         if($request->password){
+            $users->password = $request->password;
+         }
+         $users->save();
+
+               
 
         UserPermission::where('user_id', $user_id)->delete();
         foreach ($request['permission_id'] as $key => $value) {

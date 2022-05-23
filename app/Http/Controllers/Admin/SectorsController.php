@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use Rap2hpoutre\FastExcel\FastExcel;
-use App\Models\Department;
 
 class SectorsController extends Controller
 {
@@ -150,11 +149,8 @@ class SectorsController extends Controller
     {
         
         $result = [];
-        if($request->has('q')){
-          $search = $request->q;
-          $result =table::hrms_tbl_employee()->where('empName', 'LIKE', $search. '%')
-          ->where('compID',$compID)->select(['empID','empNo','empName'])->get();
-        }
+        $result =Department::where('sector_id', $request->from_sector)
+         ->select(['id','name'])->get();
 
         return response()->json($result);
 

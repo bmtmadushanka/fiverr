@@ -19,7 +19,7 @@
                             <div class="input-group">
                             <input type="text" name="name" id="name" class="form-control" required>
                                 <div class="invalid-feedback">
-                                    Please Enter Role.
+                                    Please Enter Name.
                                 </div>
                                 <div class="valid-feedback">
                                     Looks good!
@@ -31,7 +31,7 @@
                             <div class="input-group">
                             <input type="email" name="email" id="email" class="form-control" required>
                                 <div class="invalid-feedback">
-                                    Please Enter Role.
+                                    Please Enter Email.
                                 </div>
                                 <div class="valid-feedback">
                                     Looks good!
@@ -45,7 +45,7 @@
                             <div class="input-group">
                             <input type="password" name="password" id="password" class="form-control" required>
                                 <div class="invalid-feedback">
-                                    Please Enter Role.
+                                    Please Enter Password.
                                 </div>
                                 <div class="valid-feedback">
                                     Looks good!
@@ -57,7 +57,7 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">Image</label>
                         <div class="col-md-4 mb-3 mt-3">
                             <div class="input-group">
-                            <input type="file" name="user_image" id="user_image" class="form-control" required>
+                            <input type="file" name="user_image" id="user_image" class="form-control">
                                 <div class="invalid-feedback">
                                     Please select Image.
                                 </div>
@@ -78,7 +78,7 @@
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">
-                                    Please Enter Role.
+                                    Please Select Role.
                                 </div>
                                 <div class="valid-feedback">
                                     Looks good!
