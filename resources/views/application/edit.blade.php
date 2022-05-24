@@ -8,8 +8,9 @@
             <a href="{{ url()->previous() }}" class="btn btn-secondary" style="float: right;">Back</a>
             </div>
             <div class="card-body" style=" background-color:#d9eff6;">
-                <form action="{{ route('application.store') }}" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+                <form action="{{ route('application.update',$app->id) }}" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="row form-row" style="background-color:grey">
                         <h5>VIP Order Tracking System</h5>
                     </div>
@@ -17,7 +18,7 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">Req</label>
                         <div class="col-md-1 mb-3 mt-3">
                             <div class="input-group">
-                            <input type="number" name="sr_number" id="sr_number" class="form-control" value="{{$sr_number}}" readonly required>
+                            <input type="number" name="sr_number" id="sr_number" class="form-control" value="{{$app->sr_number}}" readonly required>
                                 <div class="invalid-feedback">
                                     Please Enter SR Number.
                                 </div>
@@ -29,7 +30,7 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">الرقم المدني</label>
                         <div class="col-md-1 mb-3 mt-3">
                             <div class="input-group">
-                            <input type="text" name="applicant_civil_id" id="applicant_civil_id" class="form-control numaric" maxlength="12" required>
+                            <input type="text" name="applicant_civil_id" value="{{$app->applicant_civil_id}}" id="applicant_civil_id" class="form-control numaric" maxlength="12" required>
                                 <div class="invalid-feedback">
                                     Please Enter Civil Number.
                                 </div>
@@ -41,7 +42,7 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">الإسم </label>
                         <div class="col-md-7 mb-3 mt-3">
                             <div class="input-group">
-                            <input type="text" name="applicant_name" id="applicant_name" class="form-control" required>
+                            <input type="text" name="applicant_name" value="{{$app->applicant_name}}" id="applicant_name" class="form-control" required>
                                 <div class="invalid-feedback">
                                     Please Enter Applicant Name.
                                 </div>
@@ -55,10 +56,10 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">الإجراء</label>
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="action_taken" id="action_taken" class="form-control select2" required>
-                                <option>بريد وارد</option>
-                                <option>تم التنفيذ</option>
-                                <option>عمل احتياج</option>
-                                <option>ملغي</option>
+                                <option @if($app->action_taken == 'بريد وارد') selected @endif>بريد وارد</option>
+                                <option @if($app->action_taken == 'تم التنفيذ') selected @endif>تم التنفيذ</option>
+                                <option @if($app->action_taken == 'عمل احتياج') selected @endif>عمل احتياج</option>
+                                <option @if($app->action_taken == 'ملغي') selected @endif>ملغي</option>
                             </select>
                             <div class="invalid-feedback">
                                     Please Select Action Taken.
@@ -70,8 +71,8 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">حالة الطلب</label>
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="action_status" id="action_status" class="form-control select2" required>
-                                <option>Done</option>
-                                <option>New</option>
+                                <option @if($app->action_status == 'Done') selected @endif>Done</option>
+                                <option @if($app->action_status == 'New') selected @endif>New</option>
                             </select>
                             <div class="invalid-feedback">
                                     Please Select Action Status.
@@ -83,7 +84,7 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">تاريخ الإجراء </label>
                         <div class="col-md-3 mb-3 mt-3">
                             <div class="input-group">
-                            <input type="date" name="action_date" id="action_date" class="form-control" required>
+                            <input type="date" name="action_date" value="{{$app->action_date}}" id="action_date" class="form-control" required>
                                 <div class="invalid-feedback">
                                     Please Select Action Date.
                                 </div>
@@ -98,7 +99,7 @@
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="applicant_degree" id="applicant_degree" class="form-control select2" required>
                                 @foreach ($educations as $data)
-                                <option {{$data->id}}>{{$data->name}}</option>
+                                <option value="{{$data->id}}" @if($app->applicant_degree == $data->id) selected @endif>{{$data->name}}</option>
                                 @endforeach
                             </select>
                             <div class="invalid-feedback">
@@ -111,8 +112,8 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">المستوى العلمي</label>
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="applicant_academic" id="applicant_academic" class="form-control select2" required>
-                                <option>PHD</option>
-                                <option>Masters</option>
+                                <option @if($app->applicant_academic == 'PHD') selected @endif>PHD</option>
+                                <option @if($app->applicant_academic == 'Masters') selected @endif>Masters</option>
                             </select>
                             <div class="invalid-feedback">
                                     Please Select Level.
@@ -124,8 +125,8 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">المسمى الوظيفي </label>
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="applicant_job_title" id="applicant_job_title" class="form-control select2" required>
-                                <option>Job 1</option>
-                                <option>Job 2</option>
+                                <option  @if($app->applicant_job_title == 'Job 1') selected @endif>Job 1</option>
+                                <option  @if($app->applicant_job_title == 'Job 2') selected @endif>Job 2</option>
                             </select>
                             <div class="invalid-feedback">
                                     Please Select JOB Title.
@@ -139,7 +140,7 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">CSC ملاحظات</label>
                         <div class="col-md-7 mb-3 mt-3">
                             <div class="input-group">
-                                <input type="text" name="csc_organization" id="csc_organization" class="form-control" required>
+                                <input type="text" name="csc_organization"  value="{{$app->csc_organization}}" id="csc_organization" class="form-control" required>
                                 <div class="invalid-feedback">
                                     Please Enter CSC Note.
                                 </div>
@@ -151,7 +152,7 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">رقم الصادر</label>
                         <div class="col-md-3 mb-3 mt-3">
                             <div class="input-group">
-                                <input type="text" name="outgoing_letter_number" id="outgoing_letter_number" class="form-control numaric" required>
+                                <input type="text" value="{{$app->outgoing_letter_number}}" name="outgoing_letter_number" id="outgoing_letter_number" class="form-control numaric" required>
                                 <div class="invalid-feedback">
                                     Please Enter Organization Number.
                                 </div>
@@ -165,9 +166,9 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">المصدر</label>
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="source_name" id="source_name" class="form-control select2" required>
-                                <option>Source one</option>
-                                <option>Source Two</option>
-                                <option>Source Three</option>
+                                <option @if($app->source_name == 'Source one') selected @endif>Source one</option>
+                                <option @if($app->source_name == 'Source Two') selected @endif>Source Two</option>
+                                <option @if($app->source_name == 'Source Three') selected @endif>Source Three</option>
                             </select>
                             <div class="invalid-feedback">
                                     Please Select Source.
@@ -179,8 +180,8 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">صفة المصدر</label>
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="source_description" id="source_description" class="form-control select2" required>
-                                <option>Description 1</option>
-                                <option>Description 2</option>
+                                <option @if($app->source_description == 'Description 1') selected @endif>Description 1</option>
+                                <option @if($app->source_description == 'Description 2') selected @endif>Description 2</option>
                             </select>
                             <div class="invalid-feedback">
                                     Please Select Description.
@@ -194,9 +195,9 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">السكرتير</label>
                         <div class="col-md-3 mb-3 mt-3">
                             <div class="input-group">
-                                <input type="text" name="source_secreatary_name" id="source_secreatary_name" class="form-control" required>
+                                <input type="text" name="source_secreatary_name" value="{{$app->source_secreatary_name}}" id="source_secreatary_name" class="form-control" required>
                                 <div class="invalid-feedback">
-                                    Please Enter Secreatary Name.
+                                    Please Enter Secretary Name.
                                 </div>
                                 <div class="valid-feedback">
                                     Looks good!
@@ -206,7 +207,7 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">هاتف السكرتير </label>
                         <div class="col-md-3 mb-3 mt-3">
                             <div class="input-group">
-                                <input type="text" name="secreatary_mobile" id="secreatary_mobile" class="form-control numaric" maxlength="9" required>
+                                <input type="text" name="secreatary_mobile" value="{{$app->secreatary_mobile}}" id="secreatary_mobile" class="form-control numaric" maxlength="9" required>
                                 <div class="invalid-feedback">
                                     Please Enter Secreatary Number.
                                 </div>
@@ -220,7 +221,7 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">No.req</label>
                         <div class="col-md-1 mb-3 mt-3">
                             <div class="input-group">
-                                <input type="text" name="current_request" id="current_request" class="form-control numaric" maxlength="3" required>
+                                <input type="text" name="current_request" value="{{$app->current_request}}" id="current_request" class="form-control numaric" maxlength="3" required>
                                 <div class="invalid-feedback">
                                     Please Enter No Of Request.
                                 </div>
@@ -232,7 +233,7 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">Rem.req </label>
                         <div class="col-md-1 mb-3 mt-3">
                             <div class="input-group">
-                                <input type="text" name="remaining_request" id="remaining_request" class="form-control numaric" maxlength="3" required>
+                                <input type="text" name="remaining_request" value="{{$app->remaining_request}}" id="remaining_request" class="form-control numaric" maxlength="3" required>
                                 <div class="invalid-feedback">
                                     Please Enter Remaining Request.
                                 </div>
@@ -244,7 +245,7 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">Add.req</label>
                         <div class="col-md-1 mb-3 mt-3">
                             <div class="input-group">
-                                <input type="text" name="additional_request" id="additional_request" class="form-control numaric" maxlength="3" required>
+                                <input type="text" name="additional_request" value="{{$app->additional_request}}" id="additional_request" class="form-control numaric" maxlength="3" required>
                                 <div class="invalid-feedback">
                                     Please Enter Additional Request.
                                 </div>
@@ -256,7 +257,7 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">Tot.req  </label>
                         <div class="col-md-1 mb-3 mt-3">
                             <div class="input-group">
-                                <input type="text" name="total_request" id="total_request" class="form-control numaric" maxlength="3" required>
+                                <input type="text" name="total_request" value="{{$app->total_request}}" id="total_request" class="form-control numaric" maxlength="3" required>
                                 <div class="invalid-feedback">
                                     Please Enter Total Request.
                                 </div>
@@ -268,7 +269,7 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">Eligible.req  </label>
                         <div class="col-md-1 mb-3 mt-3">
                             <div class="input-group">
-                                <input type="text" name="eligible_requests" id="eligible_requests" class="form-control numaric" maxlength="3" required>
+                                <input type="text" name="eligible_requests" value="{{$app->eligible_requests}}" id="eligible_requests" class="form-control numaric" maxlength="3" required>
                                 <div class="invalid-feedback">
                                     Please Enter Eligible Request.
                                 </div>
@@ -282,9 +283,9 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">الموضوع</label>
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="subject" id="subject" class="form-control select2" required>
-                                <option>Subject one</option>
-                                <option>Subject Two</option>
-                                <option>Subject Three</option>
+                                <option @if($app->subject == 'Subject One') selected @endif>Subject One</option>
+                                <option @if($app->subject == 'Subject Two') selected @endif>Subject Two</option>
+                                <option @if($app->subject == 'Subject Three') selected @endif>Subject Three</option>
                             </select>
                             <div class="invalid-feedback">
                                     Please Select Subject.
@@ -297,9 +298,9 @@
                     <div class="form-row">
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">من قطاع</label>
                         <div class="col-md-3 mb-3 mt-3">
-                            <select name="from_sector" id="from_sector" class="form-control" required>
+                            <select name="from_sector" id="from_sector" class="form-control select2" required>
                                 @foreach ($sectors as $data)
-                                <option {{$data->id}}>{{$data->name}}</option>
+                                <option value="{{$data->id}}" @if($app->from_sector == $data->id) selected @endif>{{$data->name}}</option>
                                 @endforeach
                             </select>
                             <div class="invalid-feedback">
@@ -312,8 +313,9 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">إدارة</label>
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="from_department" id="from_department" class="form-control select2" required>
-                                <option>-</option>
-                                
+                                @foreach ($from_departments as $from_department)
+                                    <option value="{{$from_department->id}}" @if($app->from_department == $from_department->id) selected @endif>{{$from_department->name}}</option>
+                                @endforeach
                             </select>
                             <div class="invalid-feedback">
                                     Please Select Department.
@@ -332,16 +334,20 @@
                                 <div class="valid-feedback">
                                     Looks good!
                                 </div>
+
                             </div>
+                            @foreach($files as $key=>$file)
+                                <a class="btn btn-secondary mr-1 mt-1 btn-sm" href="{{asset('attachment/'.$file)}}" >Document {{$key+1}}</a>
+                            @endforeach
                         </div>
                     </div>
                     <div class="form-row">
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">إلى قطاع</label>
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="to_sector" id="to_sector" class="form-control select2" required>
-                                <option>Sector one</option>
-                                <option>Sector Two</option>
-                                <option>Sector Three</option>
+                                @foreach ($sectors as $data)
+                                    <option value="{{$data->id}}" @if($app->to_sector == $data->id) selected @endif>{{$data->name}}</option>
+                                @endforeach
                             </select>
                             <div class="invalid-feedback">
                                     Please Select Sector.
@@ -353,9 +359,9 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">إدارة</label>
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="to_department" id="to_department" class="form-control select2" required>
-                                <option>Department one</option>
-                                <option>Department Two</option>
-                                <option>Department Three</option>
+                                @foreach ($to_departments as $to_department)
+                                    <option value="{{$to_department->id}}" @if($app->to_department == $to_department->id) selected @endif>{{$to_department->name}}</option>
+                                @endforeach
                             </select>
                             <div class="invalid-feedback">
                                     Please Select Department.
@@ -368,17 +374,17 @@
                     <div class="form-row">
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">ملاحظات</label>
                         <div class="col-md-11 mb-3 mt-3">
-                            <textarea name="general_notes" cols="147"> </textarea>
+                            <textarea name="general_notes" cols="147">{{$app->general_notes}} </textarea>
                         </div>
                     </div>
                     <div class="form-row">
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">ملاحظات</label>
-                        <div class="col-md-11 mb-3 mt-3"> 
-                            <textarea name="special_notes" cols="147"> </textarea>
+                        <div class="col-md-11 mb-3 mt-3">
+                            <textarea name="special_notes" cols="147">{{$app->special_notes}} </textarea>
                         </div>
                     </div>
                     <div class="form-row">
-                        <button class="btn btn-success mb-3 mt-3" type="submit">Save Details</button>
+                        <button class="btn btn-success mb-3 mt-3 mr-2" type="submit">Update Details</button>
                     </div>
                 </form>
             </div>
@@ -388,6 +394,7 @@
 @endsection
 
 @section('scripts')
+    <script src="{{asset('js/application_control.js')}}"></script>
 <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function() {
@@ -407,11 +414,23 @@
             });
         }, false);
     })();
-    $('#from_sector').on("change", function(e) { 
-        var from_sector = $('#from_sector').val();
+
+    $(document).ready(function () {
+        initFromDepartmentSelect();
+        initToDepartmentSelect();
+
+        $('#from_department').val({{$app->from_department}});
+        $('#from_department').trigger('change');
+        $('#to_department').val({{$app->to_department}});
+        $('#to_department').trigger('change');
+
+    });
+    /*$('#from_sector').on("change", function(e) {
+        //var from_sector = $('#from_sector').val();
+        let from_sector = $(this).val();
         $.ajax({
          url: "{{route('sector.from_department')}}",
-         method   : 'post',
+         type   : 'POST',
          data     : {
             from_sector : from_sector,
                   },
@@ -423,9 +442,9 @@
 
          }
       });
-        
-      
+
+
     });
-       
+*/
 </script>
 @endsection

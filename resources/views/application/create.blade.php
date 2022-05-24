@@ -98,7 +98,7 @@
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="applicant_degree" id="applicant_degree" class="form-control select2" required>
                                 @foreach ($educations as $data)
-                                <option {{$data->id}}>{{$data->name}}</option>
+                                <option value="{{$data->id}}">{{$data->name}}</option>
                                 @endforeach
                             </select>
                             <div class="invalid-feedback">
@@ -297,9 +297,9 @@
                     <div class="form-row">
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">من قطاع</label>
                         <div class="col-md-3 mb-3 mt-3">
-                            <select name="from_sector" id="from_sector" class="form-control" required>
+                            <select name="from_sector" id="from_sector" class="form-control select2" required>
                                 @foreach ($sectors as $data)
-                                <option {{$data->id}}>{{$data->name}}</option>
+                                <option value="{{$data->id}}">{{$data->name}}</option>
                                 @endforeach
                             </select>
                             <div class="invalid-feedback">
@@ -312,8 +312,7 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">إدارة</label>
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="from_department" id="from_department" class="form-control select2" required>
-                                <option>-</option>
-                                
+
                             </select>
                             <div class="invalid-feedback">
                                     Please Select Department.
@@ -339,9 +338,9 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">إلى قطاع</label>
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="to_sector" id="to_sector" class="form-control select2" required>
-                                <option>Sector one</option>
-                                <option>Sector Two</option>
-                                <option>Sector Three</option>
+                                @foreach ($sectors as $data)
+                                    <option value="{{$data->id}}">{{$data->name}}</option>
+                                @endforeach
                             </select>
                             <div class="invalid-feedback">
                                     Please Select Sector.
@@ -353,9 +352,7 @@
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">إدارة</label>
                         <div class="col-md-3 mb-3 mt-3">
                             <select name="to_department" id="to_department" class="form-control select2" required>
-                                <option>Department one</option>
-                                <option>Department Two</option>
-                                <option>Department Three</option>
+
                             </select>
                             <div class="invalid-feedback">
                                     Please Select Department.
@@ -373,7 +370,7 @@
                     </div>
                     <div class="form-row">
                         <label for="" class="col-sm-1 col-form-label mb-3 mt-3">ملاحظات</label>
-                        <div class="col-md-11 mb-3 mt-3"> 
+                        <div class="col-md-11 mb-3 mt-3">
                             <textarea name="special_notes" cols="147"> </textarea>
                         </div>
                     </div>
@@ -388,6 +385,7 @@
 @endsection
 
 @section('scripts')
+    <script src="{{asset('js/application_control.js')}}"></script>
 <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function() {
@@ -407,25 +405,12 @@
             });
         }, false);
     })();
-    $('#from_sector').on("change", function(e) { 
-        var from_sector = $('#from_sector').val();
-        $.ajax({
-         url: "{{route('sector.from_department')}}",
-         method   : 'post',
-         data     : {
-            from_sector : from_sector,
-                  },
-         success  : function(response){
-            $.each(response,function(key, value)
-            {
-                $("#from_department").append('<option value=' + key + '>' + value + '</option>');
-            });
 
-         }
-      });
-        
-      
+    $(document).ready(function () {
+        initFromDepartmentSelect();
+        initToDepartmentSelect();
+
     });
-       
+
 </script>
 @endsection

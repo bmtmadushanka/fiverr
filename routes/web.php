@@ -24,9 +24,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/applications', [App\Http\Controllers\ApplicationsController::class, 'index'])->name('applications');
 Route::get('/application-create', [App\Http\Controllers\ApplicationsController::class, 'create'])->name('application.create');
 Route::post('/application-store', [App\Http\Controllers\ApplicationsController::class, 'store'])->name('application.store');
-Route::get('/application-edit', [App\Http\Controllers\ApplicationsController::class, 'edit'])->name('application.edit');
-Route::post('/application-update', [App\Http\Controllers\ApplicationsController::class, 'update'])->name('application.update');
-Route::post('/application-delete', [App\Http\Controllers\ApplicationsController::class, 'delete'])->name('application.delete');
+Route::get('/application-edit/{id}', [App\Http\Controllers\ApplicationsController::class, 'edit'])->name('application.edit');
+Route::put('/application/{id}', [App\Http\Controllers\ApplicationsController::class, 'update'])->name('application.update');
+Route::delete('/application/{id}', [App\Http\Controllers\ApplicationsController::class, 'delete'])->name('application.delete');
 Route::post('/application-history', [App\Http\Controllers\ApplicationsController::class, 'history'])->name('application.history');
 
 /** Application Module Ends */
@@ -63,6 +63,7 @@ Route::post('/sectors/import', [App\Http\Controllers\Admin\SectorsController::cl
 Route::put('/sectors/{id}', [App\Http\Controllers\Admin\SectorsController::class, 'update'])->name('sector.update');
 Route::delete('/sectors/{id}', [App\Http\Controllers\Admin\SectorsController::class, 'destroy'])->name('sector.destroy');
 Route::post('/sectors/from_department', [App\Http\Controllers\Admin\SectorsController::class, 'from_department'])->name('sector.from_department');
+Route::get('/sectors/{id}/departments', [App\Http\Controllers\Admin\SectorsController::class, 'departmentsBySectorId'])->name('sector.departments');
 
 //Departments
 Route::get('/departments', [App\Http\Controllers\Admin\DepartmentsController::class, 'index'])->name('department.all');

@@ -29,11 +29,11 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            
-                            
+
+
                             <tbody>
 
-                                @isset($applications)                                    
+                                @isset($applications)
                                 @foreach ($applications as $data)
                                     <tr>
                                         <td>{{ $data->id }}</td>
@@ -42,15 +42,12 @@
                                         <td>{{ $data->applicant_name }}</td>
                                         <td>{{ $data->action_date }}</td>
                                         <td>
-                                            <form action="{{ route('application.delete', $data->id) }}" method="POST">
                                                 <a href="{{ route('application.edit', $data->id) }}"
                                                     class="btn btn-primary">Edit</a>
                                                     <a href="{{ route('application.history', $data->id) }}"
                                                     class="btn btn-primary">History</a>
                                                 @csrf
-                                                {{ method_field('DELETE') }}
-                                                <button class="btn btn-danger">Delete</button>
-                                            </form>
+                                                <button class="btn btn-danger app_delete" data-id="{{$data->id}}">Delete</button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -66,7 +63,7 @@
 @section('scripts')
 <script>
 $(document).ready(function () {
-    
+
     // DataTable
     var table = $('#example').DataTable({
         initComplete: function () {
@@ -75,7 +72,7 @@ $(document).ready(function () {
                 .columns()
                 .every(function () {
                     var that = this;
- 
+
                     $('input', this.header()).on('keyup change clear', function () {
                         if (that.search() !== this.value) {
                             that.search(this.value).draw();
@@ -84,6 +81,34 @@ $(document).ready(function () {
                 });
         },
     });
+
+    $('.app_delete').on('click',function () {
+        let t = table;
+        let id  = $(this).data('id');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value === true) {
+                $.ajax({
+                    type : 'delete',
+                    url : '/application/'+id,
+                    success : function (res) {
+                        t.ajax.reload();
+                        show_success_response(res);
+                    },
+                    error : function (res) {
+                        show_error_response(res);
+                    }
+                });
+            }
+        })
+    })
 });
 
 </script>
