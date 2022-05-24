@@ -54,7 +54,20 @@
         $(this).val(fixedInput);
         console.log(fixedInput);
     });
-    
+
+     function show_success_response(response){
+
+         Swal.fire('Success',response.msg,'success');
+         //alert(response.msg);
+     }
+     function show_error_response(response){
+         Swal.fire({
+             icon: 'error',
+             title: 'Oops...',
+             text:  JSON.parse(response.responseText).msg
+         });
+     }
+
 </script>
 <!-- jQuery UI 1.11.4 -->
 

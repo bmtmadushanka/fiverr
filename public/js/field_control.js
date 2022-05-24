@@ -554,16 +554,3 @@ $('.upload_btn').on('click',function () {
 
 })
 
-
-function show_success_response(response){
-
-    Swal.fire('Success',response.msg,'success');
-    //alert(response.msg);
-}
-function show_error_response(response){
-    Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text:  JSON.parse(response.responseText).msg
-    });
-}
