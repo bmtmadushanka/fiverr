@@ -147,12 +147,20 @@ class SectorsController extends Controller
 
     public function from_department(Request $request)
     {
-        
-        $result = [];
+
         $result =Department::where('sector_id', $request->from_sector)
          ->select(['id','name'])->get();
 
         return response()->json($result);
 
+    }
+
+    public function departmentsBySectorId($id)
+    {
+
+        $result =Department::where('sector_id', $id)
+            ->select(['id','name'])->get();
+
+        return response()->json($result);
     }
 }
