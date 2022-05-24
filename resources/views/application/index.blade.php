@@ -45,6 +45,8 @@
                                             <form action="{{ route('application.delete', $data->id) }}" method="POST">
                                                 <a href="{{ route('application.edit', $data->id) }}"
                                                     class="btn btn-primary">Edit</a>
+                                                    <a href="{{ route('application.history', $data->id) }}"
+                                                    class="btn btn-primary">History</a>
                                                 @csrf
                                                 {{ method_field('DELETE') }}
                                                 <button class="btn btn-danger">Delete</button>
