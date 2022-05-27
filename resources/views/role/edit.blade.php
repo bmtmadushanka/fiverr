@@ -85,6 +85,12 @@
                                                 <label class="custom-control-label" for="permission_id_33"> Request Delete</label>
                                             </div>
                                         </td>
+                                        <td>
+                                            <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" name="permission_id[]" id="permission_id_34" @if(isset($selected_role_permission)) @if(in_array('34', $selected_role_permission)) checked @endif @endif value="34">
+                                                <label class="custom-control-label" for="permission_id_34"> Request History</label>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -113,6 +119,7 @@
                                                 <label class="custom-control-label" for="permission_id_43"> Field Upload</label>
                                             </div>
                                         </td>
+                                        <td></td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -141,6 +148,7 @@
                                                 <label class="custom-control-label" for="permission_id_53"> Role Delete</label>
                                             </div>
                                         </td>
+                                        <td></td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -169,6 +177,7 @@
                                                 <label class="custom-control-label" for="permission_id_63"> User Delete</label>
                                             </div>
                                         </td>
+                                        <td></td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -191,6 +200,7 @@
                                         <td>
                                           
                                         </td>
+                                        <td></td>
                                     </tr>
                                 </tbody>
                             </table>

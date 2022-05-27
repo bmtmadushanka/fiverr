@@ -15,6 +15,7 @@ Class permission {
             31 => 'request-add',
             32 => 'request-edit',
             33 => 'request-delete',
+            34 => 'request-history',
         4 => 'field',
             41 => 'field-add',
             42 => 'field-delete',
@@ -34,8 +35,8 @@ Class permission {
 
     public static function permitted($page)
     {
-        $userID = Session::get('userId');
-
+       
+        $userID = Auth::id();
         $perms=self::$perms;
         $permid = array_search($page, $perms);
         if($userID==1) {

@@ -27,7 +27,7 @@ Route::post('/application-store', [App\Http\Controllers\ApplicationsController::
 Route::get('/application-edit/{id}', [App\Http\Controllers\ApplicationsController::class, 'edit'])->name('application.edit');
 Route::put('/application/{id}', [App\Http\Controllers\ApplicationsController::class, 'update'])->name('application.update');
 Route::delete('/application/{id}', [App\Http\Controllers\ApplicationsController::class, 'delete'])->name('application.delete');
-Route::post('/application-history', [App\Http\Controllers\ApplicationsController::class, 'history'])->name('application.history');
+Route::get('/application-history/{id}', [App\Http\Controllers\ApplicationsController::class, 'history'])->name('application.history');
 
 /** Application Module Ends */
 

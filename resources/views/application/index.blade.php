@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@inject('permission', 'App\Classes\permission')
 
 @section('content')
         <div class="row">
@@ -42,12 +43,20 @@
                                         <td>{{ $data->applicant_name }}</td>
                                         <td>{{ $data->action_date }}</td>
                                         <td>
+                                        @if ($permission->permitted('request-edit')=='success')
+
                                                 <a href="{{ route('application.edit', $data->id) }}"
                                                     class="btn btn-primary">Edit</a>
+                                        @endif
+                                        @if ($permission->permitted('request-history')=='success')
+
                                                     <a href="{{ route('application.history', $data->id) }}"
                                                     class="btn btn-primary">History</a>
+                                        @endif
+                                        @if ($permission->permitted('request-delete')=='success')
                                                 @csrf
                                                 <button class="btn btn-danger app_delete" data-id="{{$data->id}}">Delete</button>
+                                        @endif
                                         </td>
                                     </tr>
                                 @endforeach

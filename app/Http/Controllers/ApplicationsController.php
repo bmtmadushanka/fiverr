@@ -8,6 +8,9 @@ use App\Models\Applications;
 use App\Models\Education;
 use App\Models\Note;
 use App\Models\Sector;
+use App\Models\ApplicationHistory;
+use Auth;
+use App\Classes\permission;
 
 class ApplicationsController extends Controller
 {
@@ -28,6 +31,8 @@ class ApplicationsController extends Controller
      */
     public function index()
     {
+        if (permission::permitted('request')=='fail'){ return redirect()->route('denied'); }
+
         $applications = Applications::all();
         return view('application.index', compact('applications'));
     }
@@ -39,6 +44,8 @@ class ApplicationsController extends Controller
      */
     public function create()
     {
+        if (permission::permitted('request-add')=='fail'){ return redirect()->route('denied'); }
+
         $Applications = Applications::latest('id')->first();
 
         if($Applications){
@@ -63,6 +70,8 @@ class ApplicationsController extends Controller
      */
     public function store(Request $request)
     {
+        if (permission::permitted('request-add')=='fail'){ return redirect()->route('denied'); }
+
         $input = $request->all();
         $files = [];
         if($request->hasfile('attachment'))
@@ -120,11 +129,20 @@ class ApplicationsController extends Controller
     public function edit($id)
     {
 
+        if (permission::permitted('request-edit')=='fail'){ return redirect()->route('denied'); }
+
         $app = Applications::find($id);
         $educations = Education::All();
         $notes = Note::All();
         $sectors = Sector::All();
-        $files = unserialize($app->attachment);
+
+        if(isset($app->attachment)){
+            $files = unserialize($app->attachment);
+
+        }else{
+            $files = Null;
+
+        }
         $from_departments = Department::where('sector_id',$app->from_sector)->get();
         $to_departments = Department::where('sector_id',$app->to_sector)->get();
 
@@ -177,6 +195,7 @@ class ApplicationsController extends Controller
     public function update($id,Request $request)
     {
 
+        if (permission::permitted('request-edit')=='fail'){ return redirect()->route('denied'); }
 
         $application = Applications::findorFail($id);
         $input = $request->all();
@@ -194,32 +213,316 @@ class ApplicationsController extends Controller
         }
 
             //$application->sr_number = $input['sr_number'];
+            if($application->applicant_name != $input['applicant_name']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'applicant_name';
+                $history->old = $application->applicant_name;
+                $history->new = $input['applicant_name'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->applicant_name = $input['applicant_name'];
+
+            if($application->applicant_civil_id != $input['applicant_civil_id']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'applicant_civil_id';
+                $history->old = $application->applicant_civil_id;
+                $history->new = $input['applicant_civil_id'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->applicant_civil_id = $input['applicant_civil_id'];
+
+            if($application->action_taken != $input['action_taken']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'action_taken';
+                $history->old = $application->action_taken;
+                $history->new = $input['action_taken'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->action_taken = $input['action_taken'];
+
+            if($application->action_status != $input['action_status']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'action_status';
+                $history->old = $application->action_status;
+                $history->new = $input['action_status'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->action_status = $input['action_status'];
+
+            if($application->action_date != $input['action_date']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'action_date';
+                $history->old = $application->action_date;
+                $history->new = $input['action_date'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->action_date = $input['action_date'];
+
+            if($application->applicant_degree != $input['applicant_degree']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'applicant_degree';
+                $history->old = $application->applicant_degree;
+                $history->new = $input['applicant_degree'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->applicant_degree = $input['applicant_degree'];
+
+            if($application->applicant_academic != $input['applicant_academic']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'applicant_academic';
+                $history->old = $application->applicant_academic;
+                $history->new = $input['applicant_academic'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->applicant_academic = $input['applicant_academic'];
+
+            if($application->applicant_job_title != $input['applicant_job_title']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'applicant_job_title';
+                $history->old = $application->applicant_job_title;
+                $history->new = $input['applicant_job_title'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->applicant_job_title = $input['applicant_job_title'];
+
+            if($application->csc_organization != $input['csc_organization']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'csc_organization';
+                $history->old = $application->csc_organization;
+                $history->new = $input['csc_organization'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->csc_organization = $input['csc_organization'];
+
+            if($application->applicant_name != $input['outgoing_letter_number']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'outgoing_letter_number';
+                $history->old = $application->outgoing_letter_number;
+                $history->new = $input['outgoing_letter_number'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->outgoing_letter_number = $input['outgoing_letter_number'];
+
+            if($application->source_name != $input['source_name']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'source_name';
+                $history->old = $application->source_name;
+                $history->new = $input['source_name'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->source_name = $input['source_name'];
+
+            if($application->source_description != $input['source_description']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'source_description';
+                $history->old = $application->source_description;
+                $history->new = $input['source_description'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->source_description = $input['source_description'];
+
+            if($application->source_secreatary_name != $input['source_secreatary_name']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'source_secreatary_name';
+                $history->old = $application->source_secreatary_name;
+                $history->new = $input['source_secreatary_name'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->source_secreatary_name = $input['source_secreatary_name'];
+
+            if($application->secreatary_mobile != $input['secreatary_mobile']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'secreatary_mobile';
+                $history->old = $application->secreatary_mobile;
+                $history->new = $input['secreatary_mobile'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->secreatary_mobile = $input['secreatary_mobile'];
+
+            if($application->eligible_requests != $input['eligible_requests']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'eligible_requests';
+                $history->old = $application->eligible_requests;
+                $history->new = $input['eligible_requests'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->eligible_requests = $input['eligible_requests'];
+
+            if($application->current_request != $input['current_request']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'current_request';
+                $history->old = $application->current_request;
+                $history->new = $input['current_request'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->current_request = $input['current_request'];
+
+            if($application->remaining_request != $input['remaining_request']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'remaining_request';
+                $history->old = $application->remaining_request;
+                $history->new = $input['remaining_request'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->remaining_request = $input['remaining_request'];
+
+            if($application->additional_request != $input['additional_request']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'additional_request';
+                $history->old = $application->additional_request;
+                $history->new = $input['additional_request'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->additional_request = $input['additional_request'];
+
+            if($application->total_request != $input['total_request']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'total_request';
+                $history->old = $application->total_request;
+                $history->new = $input['total_request'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->total_request = $input['total_request'];
+
+            if($application->subject != $input['subject']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'subject';
+                $history->old = $application->subject;
+                $history->new = $input['subject'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->subject = $input['subject'];
+
+            if($application->from_sector != $input['from_sector']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'from_sector';
+                $history->old = $application->from_sector;
+                $history->new = $input['from_sector'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->from_sector = $input['from_sector'];
+
+            if($application->from_department != $input['from_department']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'from_department';
+                $history->old = $application->from_department;
+                $history->new = $input['from_department'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->from_department = $input['from_department'];
 
+            if($application->to_sector != $input['to_sector']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'to_sector';
+                $history->old = $application->to_sector;
+                $history->new = $input['to_sector'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->to_sector = $input['to_sector'];
+
+            if($application->to_department != $input['to_department']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'to_department';
+                $history->old = $application->to_department;
+                $history->new = $input['to_department'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->to_department = $input['to_department'];
+
+            if($application->general_notes != $input['general_notes']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'general_notes';
+                $history->old = $application->general_notes;
+                $history->new = $input['general_notes'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->general_notes = $input['general_notes'];
+
+            if($application->special_notes != $input['special_notes']){
+                $history = New ApplicationHistory;
+                $history->application_id = $id;
+                $history->column = 'special_notes';
+                $history->old = $application->special_notes;
+                $history->new = $input['special_notes'];
+                $history->edited_by = Auth::id();
+                $history->save();
+            }
+
             $application->special_notes = $input['special_notes'];
 
             $application->save();
@@ -243,12 +546,11 @@ class ApplicationsController extends Controller
      */
     public function history($id)
     {
+        if (permission::permitted('request-history')=='fail'){ return redirect()->route('denied'); }
 
-        $user = User::find($id);
-        $selected_user_permission = UserPermission::where('id', $id)->pluck('permission_id')->toArray();
-        $roles = Role::All();
+        $history = ApplicationHistory::where('application_id',$id)->get();
 
-        return view('users.history',compact('user','selected_user_permission','roles'));
+        return view('application.history',compact('history'));
 
     }
 }
